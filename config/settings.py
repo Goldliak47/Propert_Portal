@@ -14,6 +14,8 @@ INSTALLED_APPS = [
     # minimal core for API project
     "django.contrib.contenttypes",
     "rest_framework",
+    "corsheaders",  # ← added
+
     # our apps
     "common",
     "authx",
@@ -21,6 +23,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # ← added (keep at the top)
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.common.CommonMiddleware",
 ]
@@ -56,3 +59,11 @@ REST_FRAMEWORK = {
 # ---- MongoDB connection via MongoEngine ----
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/propman")
 connect(host=MONGO_URI)
+
+# ---- CORS (dev: open; tighten for prod) ----
+CORS_ALLOW_ALL_ORIGINS = True
+# If you prefer explicit origins instead:
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",
+#     "http://127.0.0.1:5173",
+# ]
